@@ -118,7 +118,7 @@ contract CryticERC4626PropertyBase is PropertiesAsserts {
         emit LogUint256("Shares to use in mint:", shares);
 
         // configure with setting?
-        // require(vault.previewMint(shares) > 0);
+        require(vault.previewMint(shares) > 0);
         return shares;
     }
 
@@ -141,8 +141,8 @@ contract CryticERC4626PropertyBase is PropertiesAsserts {
         shares = clampLte(shares, ownerShares);
 
         // The following logic is intended to revert when an unreasonably large redemption is being made.
-        uint256 tokensWithdrawn = vault.convertToAssets(shares);
-        vault.previewRedeem(shares);
+        vault.convertToAssets(shares);
+        uint256 tokensWithdrawn = vault.previewRedeem(shares);
         // should this be a configured setting?
         require(tokensWithdrawn > 0);
         emit LogUint256("Shares to use in redemption:", shares);
